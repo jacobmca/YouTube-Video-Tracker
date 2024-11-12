@@ -1,7 +1,7 @@
 {
     "name": "youtube-videos-tracker",
     "version": "1.0.0",
-    "description": "",
+    "description": "Video for tracking the status of my various short films in production.",
     "main": "server/server.js",
     "scripts": {
       "start": "node server/server.js",
