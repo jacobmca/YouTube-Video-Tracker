@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+import Navigation from './components/Navigation';
+
+// GraphQL API Endpoint
+const httpLink = createHttpLink({
+  uri: '/graphql',
+});
+
+// Construct request middleware that will attach the JWT token to every request as an `authorization` header
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('id_token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <ApolloProvider client={client}>
+      <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+        <Router>
+          <div className="former-body">
+            <div className="navbar navbar-expand-sm bg-secondary bg-transparent">
+              <div className="container-fluid">
+                <Navigation />
+              </div>
+            </div>
+            <Routes>
+              <Route path="/" element={<About />} />
+                <Route path="/home" element={<About />} />
+                <Route path="/donate" element={<VideoChart />} />
+                <Route path="/contact" element={<ContactPage />} />
+              </Routes>
+          </div>
+        </Router>
+      </AuthContext.Provider>
+    </ApolloProvider>
   )
 }
-
-export default App
