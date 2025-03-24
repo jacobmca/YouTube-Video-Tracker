@@ -1,7 +1,6 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import emailjs from 'emailjs-com';
+import emailjs from '@emailjs/browser';
 
 function Contact() {
     const { register, handleSubmit, reset, formState: { errors }, trigger } = useForm();
@@ -33,10 +32,10 @@ function Contact() {
         };
   
         await emailjs.send(
-          process.env.REACT_APP_SERVICE_ID,
-          process.env.REACT_APP_TEMPLATE_ID,
+          import.meta.env.VITE_SERVICE_ID,
+          import.meta.env.VITE_TEMPLATE_ID,
           templateParams,
-          process.env.REACT_APP_PUBLIC_KEY
+          import.meta.env.VITE_PUBLIC_KEY
         );
   
         toggleAlert('Form submission was successful!', 'success');

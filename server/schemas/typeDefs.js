@@ -1,25 +1,47 @@
-const { gql } = require('apollo-server-express');
+const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
-    type Video {
-        _id: ID
-        title: String!
-        description: String
-        cast: [String]
-        releaseDate: String
-        image: String
-        stage: String
-    }
+  type Video {
+    _id: ID
+    title: String!
+    image: String!
+    description: String
+    cast: [String]
+    releaseDate: String
+    status: String!
+    createdAt: String
+  }
 
-    type Query {
-        videos(stage: String): [Video]
-        video(id: ID!): Video
-    }
+  type Query {
+    videos: [Video]
+    video(_id: ID!): Video
+    videosByStatus(status: String!): [Video]
+  }
 
-    type Mutation {
-        addVideo(title: String!, description: String, cast: [String], releaseDate: String, image: String): Video
-        updateVideoStage(id: ID!, stage: String!): Video
-    }
+  type Mutation {
+    addVideo(
+      name: String!
+      image: String!
+      description: String!
+      cast: [String]
+      releaseDate: String
+      status: String!
+    ): Video
+
+    updateVideo(
+      _id: ID!
+      name: String
+      image: String
+      description: String
+      cast: [String]
+      releaseDate: String
+      status: String
+    ): Video
+
+    deleteVideo(_id: ID!): Video
+
+    updateVideoStatus(_id: ID!, status: String!): Video
+  }
 `;
 
 module.exports = typeDefs;

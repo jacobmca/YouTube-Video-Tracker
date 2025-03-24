@@ -1,6 +1,6 @@
 import React from 'react';
 
-function AboutMe() {
+function Home() {
     return (
         <div>
             <h1 className="text-center mt-5 mb-4">McAuliffe Media Production Tracker</h1>

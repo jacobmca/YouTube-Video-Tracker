@@ -2,29 +2,46 @@ const { Video } = require(`../models`);
 
 const resolvers = {
     Query: {
-        videos: async (_, { stage }) => {
-            const params = stage ? { stage } : {};
-            return await Video.find(params);
+        videos: async () => {
+          return await Video.find().sort({ createdAt: -1 });
         },
-        video: async (_, { id }) => {
-            return await Video.findById(id);
+        video: async (parent, { _id }) => {
+          return await Video.findById(_id);
         },
+        videosByStatus: async (parent, { status }) => {
+          return await Video.find({ status }).sort({ createdAt: -1 });
+        }
     },
+
     Mutation: {
-        addVideo: async (_, { title, description, cast, releaseDate, image}) => {
-            const newVideo = await Video.create({
-                title,
-                description,
-                cast,
-                releaseDate,
-                image,
-            });
-            return newVideo;
+        addVideo: async (parent, args) => {
+          const video = await Video.create(args);
+          return video;
         },
-        updateVideoStage: async (_, { id, stage }) => {
-            return await Video.findByIdAndUpdate(id, { stage }, { new: true });
+    
+        updateVideo: async (parent, args) => {
+          const video = await Video.findByIdAndUpdate(
+            args._id,
+            { ...args },
+            { new: true }
+          );
+          return video;
         },
-    },
+    
+        deleteVideo: async (parent, { _id }) => {
+          const video = await Video.findByIdAndDelete(_id);
+          return video;
+        },
+    
+        updateVideoStatus: async (parent, { _id, status }) => {
+          const video = await Video.findByIdAndUpdate(
+            _id,
+            { status },
+            { new: true }
+          );
+          return video;
+        }
+      }
 };
 
 module.exports = resolvers;

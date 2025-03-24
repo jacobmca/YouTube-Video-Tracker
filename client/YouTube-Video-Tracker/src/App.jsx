@@ -1,5 +1,12 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Navigation from './components/Navigation';
+import Navbar from './components/Navbar';
+import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+
+import About from './pages/Home';
+import VideoChart from './pages/VideoChart';
+import ContactPage from './pages/Contact';
 
 // GraphQL API Endpoint
 const httpLink = createHttpLink({
@@ -25,23 +32,23 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
         <Router>
           <div className="former-body">
             <div className="navbar navbar-expand-sm bg-secondary bg-transparent">
               <div className="container-fluid">
-                <Navigation />
+                <Navbar />
               </div>
             </div>
             <Routes>
               <Route path="/" element={<About />} />
                 <Route path="/home" element={<About />} />
-                <Route path="/donate" element={<VideoChart />} />
+                <Route path="/videochart" element={<VideoChart />} />
                 <Route path="/contact" element={<ContactPage />} />
               </Routes>
           </div>
         </Router>
-      </AuthContext.Provider>
     </ApolloProvider>
   )
 }
+
+export default App
