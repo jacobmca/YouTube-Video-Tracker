@@ -1,9 +1,18 @@
-import NewVideo from "NewVideo.jsx";
-import Video from "Video.jsx";
-// import jsonwebtoken from 'jsonwebtoken';
+import {useState} from 'react';
+// import NewVideo from "../components/NewVideo.jsx";
+import Video from "../components/Video.jsx";
 
-function VideoView() {
+function VideoChart() {
     const [expandedIndex, setExpandedIndex] = useState(null);
+    const [projects, setProjects] = useState([
+      {
+        name: "The Angry Reviewer Reviews The Angry Reviewer Movie",
+        image: "url-to-image",
+        description: "Exclusively available on The Angry Reviewer DVD Volume 4, which will include a bonus Angry Reviewer commentary on the entire Rolie Polie Olie series",
+        cast: ["Andrew Waas"],
+        releaseDate: "2025-04"
+      }
+    ]);
   
     const toggleExpand = (index) => {
       setExpandedIndex(expandedIndex === index ? null : index);
@@ -11,7 +20,7 @@ function VideoView() {
 
     return (
         <section className="video-section">
-          <div video-div>
+          <div className="video-div">
             <h2 className="video-list">List of Videos</h2>
             <div className="video-grid">
             {projects.map((project, index) => (
@@ -22,11 +31,11 @@ function VideoView() {
               key={index}
             >
               <Video
-                name={video.name}
-                image={video.image}
-                description={video.description}
-                cast={video.cast}
-                releaseDate={video.releaseDate}
+                name={project.name}
+                image={project.image}
+                description={project.description}
+                cast={project.cast}
+                releaseDate={project.releaseDate}
                 isExpanded={expandedIndex === index}
                 onToggle={() => toggleExpand(index)}
               />

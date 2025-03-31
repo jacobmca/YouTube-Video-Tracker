@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types';
 import '../App.css';
 
-function Video({ video }) {
+function Video({ name, image, description, cast, releaseDate, isExpanded, onToggle }) {
     return (
         <div className="task-card card mb-3 draggable" id="${task.id}">
             <div className="card-title strong mt-2">
@@ -17,6 +18,16 @@ function Video({ video }) {
             </div>
         </div>
     )
+}
+
+Video.propTypes = {
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    cast: PropTypes.arrayOf(PropTypes.string),
+    releaseDate: PropTypes.string.isRequired,
+    isExpanded: PropTypes.bool.isRequired,
+    onToggle: PropTypes.func.isRequired,
 }
 
 export default Video
